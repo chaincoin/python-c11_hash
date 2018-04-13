@@ -1,8 +1,8 @@
 #include <Python.h>
 
-#include "x11hash.h"
+#include "c11hash.h"
 
-static PyObject *x11_getpowhash(PyObject *self, PyObject *args)
+static PyObject *c11_getpowhash(PyObject *self, PyObject *args)
 {
     char *output;
     PyObject *value;
@@ -17,9 +17,9 @@ static PyObject *x11_getpowhash(PyObject *self, PyObject *args)
     output = PyMem_Malloc(32);
 
 #if PY_MAJOR_VERSION >= 3
-    x11_hash((char *)PyBytes_AsString((PyObject*) input), output);
+    c11_hash((char *)PyBytes_AsString((PyObject*) input), output);
 #else
-    x11_hash((char *)PyString_AsString((PyObject*) input), output);
+    c11_hash((char *)PyString_AsString((PyObject*) input), output);
 #endif
     Py_DECREF(input);
 #if PY_MAJOR_VERSION >= 3
@@ -31,27 +31,27 @@ static PyObject *x11_getpowhash(PyObject *self, PyObject *args)
     return value;
 }
 
-static PyMethodDef X11Methods[] = {
-    { "getPoWHash", x11_getpowhash, METH_VARARGS, "Returns the proof of work hash using x11 hash" },
+static PyMethodDef C11Methods[] = {
+    { "getPoWHash", c11_getpowhash, METH_VARARGS, "Returns the proof of work hash using c11 hash" },
     { NULL, NULL, 0, NULL }
 };
 
 #if PY_MAJOR_VERSION >= 3
-static struct PyModuleDef X11Module = {
+static struct PyModuleDef C11Module = {
     PyModuleDef_HEAD_INIT,
-    "x11_hash",
+    "c11_hash",
     "...",
     -1,
-    X11Methods
+    C11Methods
 };
 
-PyMODINIT_FUNC PyInit_x11_hash(void) {
-    return PyModule_Create(&X11Module);
+PyMODINIT_FUNC PyInit_c11_hash(void) {
+    return PyModule_Create(&C11Module);
 }
 
 #else
 
-PyMODINIT_FUNC initx11_hash(void) {
-    (void) Py_InitModule("x11_hash", X11Methods);
+PyMODINIT_FUNC initc11_hash(void) {
+    (void) Py_InitModule("c11_hash", C11Methods);
 }
 #endif

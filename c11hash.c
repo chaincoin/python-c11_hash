@@ -1,4 +1,4 @@
-#include "x11hash.h"
+#include "c11hash.h"
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>
@@ -17,7 +17,7 @@
 #include "sha3/sph_echo.h"
 
 
-void x11_hash(const char* input, char* output)
+void c11_hash(const char* input, char* output)
 {
     sph_blake512_context     ctx_blake;
     sph_bmw512_context       ctx_bmw;
@@ -47,17 +47,17 @@ void x11_hash(const char* input, char* output)
     sph_groestl512 (&ctx_groestl, hashB, 64);
     sph_groestl512_close(&ctx_groestl, hashA);
 
+    sph_jh512_init(&ctx_jh);
+    sph_jh512 (&ctx_jh, hashA, 64);
+    sph_jh512_close(&ctx_jh, hashB);
+
+    sph_keccak512_init(&ctx_keccak);
+    sph_keccak512 (&ctx_keccak, hashB, 64);
+    sph_keccak512_close(&ctx_keccak, hashA);
+
     sph_skein512_init(&ctx_skein);
     sph_skein512 (&ctx_skein, hashA, 64);
     sph_skein512_close (&ctx_skein, hashB);
-
-    sph_jh512_init(&ctx_jh);
-    sph_jh512 (&ctx_jh, hashB, 64);
-    sph_jh512_close(&ctx_jh, hashA);
-
-    sph_keccak512_init(&ctx_keccak);
-    sph_keccak512 (&ctx_keccak, hashA, 64);
-    sph_keccak512_close(&ctx_keccak, hashB);
 
     sph_luffa512_init (&ctx_luffa1);
     sph_luffa512 (&ctx_luffa1, hashB, 64);

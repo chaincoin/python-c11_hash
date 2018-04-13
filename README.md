@@ -1,7 +1,7 @@
-x11_hash (v1.4)
+c11_hash (v1.4)
 ===========================
 
-Python module for Dash's X11 hashing.
+Python module for Chaincoin's C11 hashing.
 
 
 Install

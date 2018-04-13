@@ -1,38 +1,37 @@
-import x11_hash
+import c11_hash
 from binascii import unhexlify, hexlify
 
 import unittest
 
-# dash block #1
-# moo@b1:~/.dash$ dashd getblockhash 1
-# 000007d91d1254d60e2dd1ae580383070a4ddffa4c64c2eeb4a2f9ecc0414343
-# moo@b1:~/.dash$ dashd getblock 000007d91d1254d60e2dd1ae580383070a4ddffa4c64c2eeb4a2f9ecc0414343
-# {
-#     "hash" : "000007d91d1254d60e2dd1ae580383070a4ddffa4c64c2eeb4a2f9ecc0414343",
-#     "confirmations" : 169888,
-#     "size" : 186,
-#     "height" : 1,
-#     "version" : 2,
-#     "merkleroot" : "ef3ee42b51e2a19c4820ef182844a36db1201c61eb0dec5b42f84be4ad1a1ca7",
-#     "tx" : [
-#         "ef3ee42b51e2a19c4820ef182844a36db1201c61eb0dec5b42f84be4ad1a1ca7"
-#     ],
-#     "time" : 1390103681,
-#     "nonce" : 128987,
-#     "bits" : "1e0ffff0",
-#     "difficulty" : 0.00024414,
-#     "previousblockhash" : "00000ffd590b1485b3caadc19b22e6379c733355108f107a430458cdf3407ab6",
-#     "nextblockhash" : "00000bafcc571ece7c5c436f887547ef41b574e10ef7cc6937873a74ef1efeae"
-# }
+# chaincoin block #1
+# noo@b1:~/.chaincoin$ chaincoin-cli getblockhash 1
+# 00000012f1c40ff12a9e6b0e9076fe4fa7ad27012e256a5ad7bcb80dc02c0409
+# noo@b1:~/.chaincoin$ chaincoin-cli getblockheader 00000012f1c40ff12a9e6b0e9076fe4fa7ad27012e256a5ad7bcb80dc02c0409
+#{
+#  "hash": "00000012f1c40ff12a9e6b0e9076fe4fa7ad27012e256a5ad7bcb80dc02c0409",
+#  "confirmations": 1451145,
+#  "height": 1,
+#  "version": 2,
+#  "versionHex": "00000002",
+#  "merkleroot": "aa2b2e9e7e1056211f51f12b5a6cfe5db99309b7e0eb6208316f366ae93d2879",
+#  "time": 1390102807,
+#  "mediantime": 1390102807,
+#  "nonce": 133097,
+#  "bits": "1e0fffff",
+#  "difficulty": 0.0002441371325370145,
+#  "chainwork": "0000000000000000000000000000000000000000000000000000000000200002",
+#  "previousblockhash": "00000f639db5734b2b861ef8dbccc33aebd7de44d13de000a12d093bcc866c64",
+#  "nextblockhash": "00000ace4e8ce1056cc5fafcd047f5de8bf4ee9e8cc579480bb4e672b6fdd9df"
+#}
 
-header_hex = ("02000000" +
-    "b67a40f3cd5804437a108f105533739c37e6229bc1adcab385140b59fd0f0000" +
-    "a71c1aade44bf8425bec0deb611c20b16da3442818ef20489ca1e2512be43eef"
-    "814cdb52" +
-    "f0ff0f1e" +
-    "dbf70100")
+header_hex = ("02000000"+
+    "646c86cc3b092da100e03dd144ded7eb3ac3ccdbf81e862b4b73b59d630f0000" +
+    "79283de96a366f310862ebe0b70993b95dfe6c5a2bf1511f2156107e9e2e2baa" +
+    "1749db52" +
+    "ffff0f1e" +
+    "e9070200")
 
-best_hash = '434341c0ecf9a2b4eec2644cfadf4d0a07830358aed12d0ed654121dd9070000'
+best_hash = '09042cc00db8bcd75a6a252e0127ada74ffe76900e6b9e2af10fc4f112000000'
 
 class TestSequenceFunctions(unittest.TestCase):
 
@@ -40,8 +39,8 @@ class TestSequenceFunctions(unittest.TestCase):
         self.block_header = unhexlify(header_hex)
         self.best_hash = best_hash
 
-    def test_x11_hash(self):
-        self.pow_hash = hexlify(x11_hash.getPoWHash(self.block_header))
+    def test_c11_hash(self):
+        self.pow_hash = hexlify(c11_hash.getPoWHash(self.block_header))
         self.assertEqual(self.pow_hash, self.best_hash)
 
 
